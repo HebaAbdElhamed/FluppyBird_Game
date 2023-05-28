@@ -9,14 +9,29 @@ class Barriers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // Barriers style like super mario game and has top circle and bottom circle
+
     return Container(
       width: 100,
       height: size,
-      decoration: BoxDecoration(
-        color: Colors.amber,
-        border: Border.all(width: 10, color: Colors.brown),
-        borderRadius: BorderRadius.circular(20),
+      decoration: const BoxDecoration(
+        color: Colors.green,
+        border: Border(
+          left: BorderSide(
+            color: Colors.black,
+            width: 10,
+          ),
+          right: BorderSide(
+            color: Colors.black,
+            width: 10,
+          ),
+        ),
       ),
     );
+
+
+
+
   }
 }

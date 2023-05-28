@@ -11,6 +11,7 @@ import 'bird.dart';
 class Home extends StatefulWidget {
   // ignore: non_constant_identifier_names
   late List<int> hp_bests;
+
   // ignore: non_constant_identifier_names
   Home({Key? key, required this.hp_bests}) : super(key: key);
 
@@ -24,12 +25,15 @@ class _HomeState extends State<Home> {
   double height = 0;
   late int score = 0;
   late List<int> hpnbests = widget.hp_bests;
+
   // ignore: non_constant_identifier_names
   late int first_bestScore = hpnbests[hpnbests.length - 1];
+
   //late int temp1 = 0;
 
   // ignore: non_constant_identifier_names
   late int second_bestScore = 0;
+
   //late int temp2 = 0;
   // ignore: non_constant_identifier_names
   late int third_bestScore = 0;
@@ -43,7 +47,6 @@ class _HomeState extends State<Home> {
       time = 0;
       score += 1;
       initialHeight = birdYaxis;
-      
     });
     if (score >= first_bestScore) {
       // temp1 = first_bestScore;
@@ -56,6 +59,7 @@ class _HomeState extends State<Home> {
     if (birdYaxis > 1 || birdYaxis < -1) {
       return true;
     }
+
     return false;
   }
 
@@ -76,9 +80,9 @@ class _HomeState extends State<Home> {
         });
 
         if (BirdIsDead()) {
-          
           timer.cancel();
-          FlameAudio.bgm.play('smb_gameover.wav');
+          // play oudio of game over one time
+          FlameAudio.play('die.mp3', volume: 0.25);
           _showDialog();
         }
 
@@ -99,27 +103,22 @@ class _HomeState extends State<Home> {
 
   void resetGame() {
     Navigator.pop(context);
+    // start again from the first barrier
     setState(() {
       birdYaxis = 0;
-      gameHasStarted = false;
       time = 0;
+      height = 0;
+      score = 0;
       initialHeight = birdYaxis;
-FlameAudio.bgm.stop();
+      barrierXone = 2;
+      barrierXtwo = barrierXone + 1.5;
+      // best score
       if (first_bestScore == hpnbests[hpnbests.length - 1]) {
         // ignore: avoid_print
         print('same');
       } else {
         hpnbests.add(first_bestScore);
       }
-
-      // if (temp1 > second_bestScore) {
-      //   temp2 = second_bestScore;
-      //   second_bestScore = temp1;
-      // }
-
-      // if (temp2 > third_bestScore) {
-      //   third_bestScore = temp2;
-      // }
     });
   }
 
@@ -181,7 +180,7 @@ FlameAudio.bgm.stop();
                   child: ElevatedButton.icon(
                     onPressed: backaction,
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
+                      backgroundColor: Colors.white,
                     ),
                     icon: const Icon(
                       Icons.arrow_back,
@@ -199,7 +198,14 @@ FlameAudio.bgm.stop();
   Widget build(BuildContext context) {
     FlameAudio.bgm.initialize();
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        if (gameHasStarted) {
+          FlameAudio.play('flap.mp3');
+          jump();
+        } else {
+          startGame();
+        }
+      },
       child: Scaffold(
         body: Column(
           children: [
@@ -275,30 +281,6 @@ FlameAudio.bgm.stop();
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(0.0),
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          FlameAudio.bgm.play('smb_mariodie.wav');
-                          if (gameHasStarted) {
-                            jump();
-                          } else {
-                            startGame();
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.amber,
-                        ),
-                        icon: const Icon(
-                          Icons.arrow_upward,
-                          size: 30.0,
-                          color: Colors.white,
-                        ),
-                        label: const Text(
-                          '',
-                        ),
-                      ),
-                    ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

@@ -15,8 +15,6 @@ class _WelcomeState extends State<Welcome> {
   void initState() {
     super.initState();
     startTime();
-
-    
   }
 
   @override
@@ -61,10 +59,9 @@ class _WelcomeState extends State<Welcome> {
   }
 
   startTime() async {
-    var duration = const Duration(seconds: 10);
-    
+    var duration = const Duration(seconds: 4);
+
     FlameAudio.bgm.initialize();
-    FlameAudio.bgm.play('world_clear.wav');
     return Timer(duration, route);
   }
 
@@ -72,10 +69,12 @@ class _WelcomeState extends State<Welcome> {
     var wbest = List<int>.empty();
     FlameAudio.bgm.stop();
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => FristPage(
-                  fb_bests: wbest,
-                )));
+      context,
+      MaterialPageRoute(
+        builder: (context) => FristPage(
+          fb_bests: wbest,
+        ),
+      ),
+    );
   }
 }
