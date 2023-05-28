@@ -25,7 +25,7 @@ class _FristPageState extends State<FristPage> {
       widget.fb_bests = [0,0,0];
     }
     FlameAudio.bgm.initialize();
-    FlameAudio.bgm.play('smb_stage_clear.wav');
+    FlameAudio.bgm.play('smb_stage_clear.wav').then((value) => FlameAudio.bgm.stop());
     super.initState();
   }
 
